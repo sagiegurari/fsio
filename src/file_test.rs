@@ -224,7 +224,7 @@ fn read_file_exists() {
 }
 
 #[test]
-fn delete_file_exists() {
+fn delete_exists() {
     let file_path = "./target/__test/ut/file_test/delete_file/delete_file_exists/file.txt";
     let mut result = ensure_exists(file_path);
     assert!(result.is_ok());
@@ -239,7 +239,7 @@ fn delete_file_exists() {
 }
 
 #[test]
-fn delete_file_not_exists() {
+fn delete_not_exists() {
     let file_path = "./target/__test/ut/file_test/delete_file/delete_file_not_exists/file.txt";
 
     let path = Path::new(file_path);
@@ -249,6 +249,21 @@ fn delete_file_not_exists() {
     assert!(result.is_ok());
 
     assert!(!path.exists());
+}
+
+#[test]
+fn delete_directory() {
+    let file_path = "./target/__test/ut/file_test/delete_file/delete_directory/file.txt";
+    let mut result = ensure_exists(file_path);
+    assert!(result.is_ok());
+
+    let path = Path::new(file_path);
+    assert!(path.exists());
+
+    result = delete("./target/__test/ut/file_test/delete_file/delete_directory");
+    assert!(result.is_err());
+
+    assert!(path.exists());
 }
 
 #[test]
@@ -278,4 +293,20 @@ fn delete_ignore_error_file_not_exists() {
     assert!(result);
 
     assert!(!path.exists());
+}
+
+#[test]
+fn delete_ignore_error_directory() {
+    let file_path = "./target/__test/ut/file_test/delete_ignore_error/delete_directory/file.txt";
+    let result = ensure_exists(file_path);
+    assert!(result.is_ok());
+
+    let path = Path::new(file_path);
+    assert!(path.exists());
+
+    let deleted =
+        delete_ignore_error("./target/__test/ut/file_test/delete_ignore_error/delete_directory");
+    assert!(!deleted);
+
+    assert!(path.exists());
 }

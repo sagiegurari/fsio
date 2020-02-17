@@ -106,3 +106,17 @@ fn delete_not_exists() {
 
     assert!(!path.exists());
 }
+
+#[test]
+fn delete_file() {
+    let file_path =
+        "./target/__test/ut/directory_test/delete_directory/delete_file/dir1/dir2/file.txt";
+    ensure_exists(file_path).unwrap();
+    let path = Path::new(file_path);
+    assert!(path.exists());
+
+    let result = delete(file_path);
+    assert!(result.is_err());
+
+    assert!(path.exists());
+}

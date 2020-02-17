@@ -184,6 +184,13 @@
 //! fsio = "*"
 //! ```
 //!
+//! If you need access to temporary file paths, enable the **temp-path** feature as follows:
+//!
+//! ```ini
+//! [dependencies]
+//! fsio = { version = "*", features = ["temp-path"] }
+//! ```
+//!
 //! # Contributing
 //! See [contributing guide](https://github.com/sagiegurari/fsio/blob/master/.github/CONTRIBUTING.md)
 //!

@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["FromPath","Defines as path trait."]]});

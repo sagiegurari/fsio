@@ -99,6 +99,13 @@ In order to use this library, just add it as a dependency:
 fsio = "*"
 ```
 
+If you need access to temporary file paths, enable the **temp-path** feature as follows:
+
+```ini
+[dependencies]
+fsio = { version = "*", features = ["temp-path"] }
+```
+
 ## API Documentation
 See full docs at: [API Docs](https://sagiegurari.github.io/fsio/)
 

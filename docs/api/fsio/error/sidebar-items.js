@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ErrorInfo","Holds the error information"]],"struct":[["FsIOError","Error struct"]]});
