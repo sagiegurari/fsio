@@ -1,0 +1,49 @@
+[package]
+name = "fsio"
+version = "0.1.0"
+authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
+description = "File System and Path utility functions."
+license = "Apache-2.0"
+edition = "2018"
+documentation = "https://sagiegurari.github.io/fsio/api/fsio/index.html"
+homepage = "http://github.com/sagiegurari/fsio"
+repository = "https://github.com/sagiegurari/fsio.git"
+readme = "README.md"
+keywords = ["environment", "build"]
+categories = ["config", "os"]
+include = [
+    "/benches/*",
+    "/docs/*",
+    "/examples/*",
+    "/src/*",
+    "/tests/*",
+    "/Cargo.toml",
+    "/LICENSE",
+    "/README.md",
+    "/Makefile.toml"
+]
+
+[dependencies]
+rand = { version = "^0.7", optional = true }
+
+[target.'cfg(not(windows))'.dependencies]
+users = { version = "^0.9", optional = true }
+
+[features]
+default = []
+temp-path = [ "rand", "users" ]
+
+[badges.travis-ci]
+branch = "master"
+repository = "sagiegurari/fsio"
+
+[badges.appveyor]
+repository = "sagiegurari/fsio"
+service = "github"
+branch = "master"
+project_name = "sagiegurari/fsio"
+
+[badges.codecov]
+branch = "master"
+repository = "sagiegurari/fsio"
+service = "github"

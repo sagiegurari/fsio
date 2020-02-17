@@ -1,0 +1,18 @@
+
+[config]
+additional_profiles = [
+    "ci-coverage-tasks",
+    "ci-all-build-tasks",
+    "publish-pre-cleanup"
+]
+
+[tasks.clean-target-test-directory]
+script_runner = "@duckscript"
+script = [
+    "rm -Rf ./target/__test"
+]
+
+[tasks.test]
+dependencies = [
+    "clean-target-test-directory"
+]
