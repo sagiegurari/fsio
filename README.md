@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/crates/l/fsio.svg)](https://github.com/sagiegurari/fsio/blob/master/LICENSE) [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/sagiegurari/fsio.svg)](https://libraries.io/cargo/fsio) [![Documentation](https://docs.rs/fsio/badge.svg)](https://docs.rs/crate/fsio/) [![downloads](https://img.shields.io/crates/d/fsio.svg)](https://crates.io/crates/fsio)<br>
 [![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 
-> Environment variables utility functions.
+> File System and Path utility functions.
 
 * [Overview](#overview)
 * [Usage](#usage)
@@ -16,7 +16,7 @@
 
 <a name="overview"></a>
 ## Overview
-File System and Path utility functions.
+This crate contains utility functions for path, file and directory handling.
 
 <a name="usage"></a>
 ## Usage
