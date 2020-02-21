@@ -1,5 +1,6 @@
 use super::*;
 
+use std::io::ErrorKind;
 use std::path::Path;
 use std::str;
 
@@ -181,6 +182,17 @@ fn append_file_on_directory() {
     let mut result = directory::create(file_path);
     assert!(result.is_ok());
     result = append_file(file_path, "some content".as_bytes());
+    assert!(result.is_err());
+}
+
+#[test]
+fn modify_file_write_error() {
+    let file_path = "./target/__test/ut/file_test/modify_file/modify_file_write_error";
+    let result = modify_file(
+        file_path,
+        &move |_: &mut File| Err(io::Error::new(ErrorKind::Other, "test")),
+        false,
+    );
     assert!(result.is_err());
 }
 

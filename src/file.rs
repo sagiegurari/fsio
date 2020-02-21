@@ -11,6 +11,7 @@ use crate::directory;
 use crate::error::{ErrorInfo, FsIOError};
 use crate::path::as_path::AsPath;
 use std::fs::{read, read_to_string, remove_file, File, OpenOptions};
+use std::io;
 use std::io::Write;
 
 /// Ensures the provided path leads to an existing file.
@@ -156,7 +157,7 @@ pub fn append_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), 
 /// }
 /// ```
 pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOError> {
-    write_to_file(path, data, false)
+    modify_file(path, &move |file: &mut File| file.write_all(data), false)
 }
 
 /// Appends (or creates) and writes the raw data to the requested file path.
@@ -189,7 +190,89 @@ pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOE
 /// }
 /// ```
 pub fn append_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOError> {
-    write_to_file(path, data, true)
+    modify_file(path, &move |file: &mut File| file.write_all(data), true)
+}
+
+/// Overwrites or appends the requested file and triggers the provided write_content function to
+/// enable custom writing.
+///
+/// # Arguments
+///
+/// * `path` - The file path
+/// * `write_content` - The custom writing function
+/// * `append` - True to append false to overwrite
+///
+/// # Example
+///
+/// ```
+/// extern crate fsio;
+///
+/// use crate::fsio::file;
+/// use std::fs::File;
+/// use std::io::Write;
+/// use std::str;
+///
+/// fn main() {
+///     let file_path = "./target/__test/file_test/modify_file/file.txt";
+///     let mut result = file::modify_file(
+///         file_path,
+///         &move |file: &mut File| file.write_all("some content".as_bytes()),
+///         false,
+///     );
+///     assert!(result.is_ok());
+///     result = file::modify_file(
+///         file_path,
+///         &move |file: &mut File| file.write_all("\nmore content".as_bytes()),
+///         true,
+///     );
+///     assert!(result.is_ok());
+///
+///     let data = file::read_file(file_path).unwrap();
+///
+///     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
+/// }
+/// ```
+pub fn modify_file<T: AsPath + ?Sized>(
+    path: &T,
+    write_content: &Fn(&mut File) -> io::Result<()>,
+    append: bool,
+) -> Result<(), FsIOError> {
+    directory::create_parent(path)?;
+
+    let file_path = path.as_path();
+
+    // create or open
+    let result = if append && file_path.exists() {
+        OpenOptions::new().append(true).open(file_path)
+    } else {
+        File::create(&file_path)
+    };
+
+    match result {
+        Ok(mut fd) => match write_content(&mut fd) {
+            Ok(_) => match fd.sync_all() {
+                Ok(_) => Ok(()),
+                Err(error) => Err(FsIOError {
+                    info: ErrorInfo::IOError(
+                        format!("Error finish up writing to file: {:?}", &file_path).to_string(),
+                        Some(error),
+                    ),
+                }),
+            },
+            Err(error) => Err(FsIOError {
+                info: ErrorInfo::IOError(
+                    format!("Error while writing to file: {:?}", &file_path).to_string(),
+                    Some(error),
+                ),
+            }),
+        },
+        Err(error) => Err(FsIOError {
+            info: ErrorInfo::IOError(
+                format!("Unable to create/open file: {:?} for writing.", &file_path).to_string(),
+                Some(error),
+            ),
+        }),
+    }
 }
 
 /// Reads the requested text file and returns its content.
@@ -361,44 +444,5 @@ pub fn delete_ignore_error<T: AsPath + ?Sized>(path: &T) -> bool {
     match delete(path) {
         Ok(_) => true,
         Err(_) => false,
-    }
-}
-
-fn write_to_file<T: AsPath + ?Sized>(path: &T, data: &[u8], append: bool) -> Result<(), FsIOError> {
-    directory::create_parent(path)?;
-
-    let file_path = path.as_path();
-
-    // create or open
-    let result = if append && file_path.exists() {
-        OpenOptions::new().append(true).open(file_path)
-    } else {
-        File::create(&file_path)
-    };
-
-    match result {
-        Ok(mut fd) => match fd.write_all(data) {
-            Ok(_) => match fd.sync_all() {
-                Ok(_) => Ok(()),
-                Err(error) => Err(FsIOError {
-                    info: ErrorInfo::IOError(
-                        format!("Error finish up writing to file: {:?}", &file_path).to_string(),
-                        Some(error),
-                    ),
-                }),
-            },
-            Err(error) => Err(FsIOError {
-                info: ErrorInfo::IOError(
-                    format!("Error while writing to file: {:?}", &file_path).to_string(),
-                    Some(error),
-                ),
-            }),
-        },
-        Err(error) => Err(FsIOError {
-            info: ErrorInfo::IOError(
-                format!("Unable to create/open file: {:?} for writing.", &file_path).to_string(),
-                Some(error),
-            ),
-        }),
     }
 }

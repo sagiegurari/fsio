@@ -1,6 +1,8 @@
 extern crate fsio;
 
 use crate::fsio::file;
+use std::fs::File;
+use std::io::Write;
 use std::path::Path;
 use std::str;
 
@@ -11,6 +13,27 @@ fn ensure_exists_test() {
 
     let path = Path::new("./target/__test/file_test/dir1/dir2/file.txt");
     assert!(path.exists());
+}
+
+#[test]
+fn modify_file_test() {
+    let file_path = "./target/__test/file_test/modify_file/file.txt";
+    let mut result = file::modify_file(
+        file_path,
+        &move |file: &mut File| file.write_all("some content".as_bytes()),
+        false,
+    );
+    assert!(result.is_ok());
+    result = file::modify_file(
+        file_path,
+        &move |file: &mut File| file.write_all("\nmore content".as_bytes()),
+        true,
+    );
+    assert!(result.is_ok());
+
+    let data = file::read_file(file_path).unwrap();
+
+    assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
 }
 
 #[test]
