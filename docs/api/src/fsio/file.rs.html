@@ -402,6 +402,50 @@
 <span id="402">402</span>
 <span id="403">403</span>
 <span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # file</span>
 <span class="doccomment">//!</span>
@@ -416,6 +460,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ErrorInfo</span>, <span class="ident">FsIOError</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">path</span>::<span class="ident">as_path</span>::<span class="ident">AsPath</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::{<span class="ident">read</span>, <span class="ident">read_to_string</span>, <span class="ident">remove_file</span>, <span class="ident">File</span>, <span class="ident">OpenOptions</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
 
 <span class="doccomment">/// Ensures the provided path leads to an existing file.</span>
@@ -561,7 +606,7 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_file</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsPath</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FsIOError</span><span class="op">&gt;</span> {
-    <span class="ident">write_to_file</span>(<span class="ident">path</span>, <span class="ident">data</span>, <span class="bool-val">false</span>)
+    <span class="ident">modify_file</span>(<span class="ident">path</span>, <span class="kw-2">&amp;</span><span class="kw">move</span> <span class="op">|</span><span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">File</span><span class="op">|</span> <span class="ident">file</span>.<span class="ident">write_all</span>(<span class="ident">data</span>), <span class="bool-val">false</span>)
 }
 
 <span class="doccomment">/// Appends (or creates) and writes the raw data to the requested file path.</span>
@@ -594,7 +639,89 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">append_file</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsPath</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FsIOError</span><span class="op">&gt;</span> {
-    <span class="ident">write_to_file</span>(<span class="ident">path</span>, <span class="ident">data</span>, <span class="bool-val">true</span>)
+    <span class="ident">modify_file</span>(<span class="ident">path</span>, <span class="kw-2">&amp;</span><span class="kw">move</span> <span class="op">|</span><span class="ident">file</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">File</span><span class="op">|</span> <span class="ident">file</span>.<span class="ident">write_all</span>(<span class="ident">data</span>), <span class="bool-val">true</span>)
+}
+
+<span class="doccomment">/// Overwrites or appends the requested file and triggers the provided write_content function to</span>
+<span class="doccomment">/// enable custom writing.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Arguments</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `path` - The file path</span>
+<span class="doccomment">/// * `write_content` - The custom writing function</span>
+<span class="doccomment">/// * `append` - True to append false to overwrite</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// extern crate fsio;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// use crate::fsio::file;</span>
+<span class="doccomment">/// use std::fs::File;</span>
+<span class="doccomment">/// use std::io::Write;</span>
+<span class="doccomment">/// use std::str;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// fn main() {</span>
+<span class="doccomment">///     let file_path = &quot;./target/__test/file_test/modify_file/file.txt&quot;;</span>
+<span class="doccomment">///     let mut result = file::modify_file(</span>
+<span class="doccomment">///         file_path,</span>
+<span class="doccomment">///         &amp;move |file: &amp;mut File| file.write_all(&quot;some content&quot;.as_bytes()),</span>
+<span class="doccomment">///         false,</span>
+<span class="doccomment">///     );</span>
+<span class="doccomment">///     assert!(result.is_ok());</span>
+<span class="doccomment">///     result = file::modify_file(</span>
+<span class="doccomment">///         file_path,</span>
+<span class="doccomment">///         &amp;move |file: &amp;mut File| file.write_all(&quot;\nmore content&quot;.as_bytes()),</span>
+<span class="doccomment">///         true,</span>
+<span class="doccomment">///     );</span>
+<span class="doccomment">///     assert!(result.is_ok());</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     let data = file::read_file(file_path).unwrap();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     assert_eq!(str::from_utf8(&amp;data).unwrap(), &quot;some content\nmore content&quot;);</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">modify_file</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsPath</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
+    <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>,
+    <span class="ident">write_content</span>: <span class="kw-2">&amp;</span><span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">File</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="ident">append</span>: <span class="ident">bool</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FsIOError</span><span class="op">&gt;</span> {
+    <span class="ident">directory</span>::<span class="ident">create_parent</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">as_path</span>();
+
+    <span class="comment">// create or open</span>
+    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">append</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">file_path</span>.<span class="ident">exists</span>() {
+        <span class="ident">OpenOptions</span>::<span class="ident">new</span>().<span class="ident">append</span>(<span class="bool-val">true</span>).<span class="ident">open</span>(<span class="ident">file_path</span>)
+    } <span class="kw">else</span> {
+        <span class="ident">File</span>::<span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="ident">file_path</span>)
+    };
+
+    <span class="kw">match</span> <span class="ident">result</span> {
+        <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">fd</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">write_content</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fd</span>) {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">fd</span>.<span class="ident">sync_all</span>() {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
+                <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+                    <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
+                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error finish up writing to file: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
+                        <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+                    ),
+                }),
+            },
+            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+                <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
+                    <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error while writing to file: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
+                    <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+                ),
+            }),
+        },
+        <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+            <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
+                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Unable to create/open file: {:?} for writing.&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
+                <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+            ),
+        }),
+    }
 }
 
 <span class="doccomment">/// Reads the requested text file and returns its content.</span>
@@ -766,45 +893,6 @@
     <span class="kw">match</span> <span class="ident">delete</span>(<span class="ident">path</span>) {
         <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
         <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-    }
-}
-
-<span class="kw">fn</span> <span class="ident">write_to_file</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsPath</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">append</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FsIOError</span><span class="op">&gt;</span> {
-    <span class="ident">directory</span>::<span class="ident">create_parent</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
-
-    <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">as_path</span>();
-
-    <span class="comment">// create or open</span>
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">append</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">file_path</span>.<span class="ident">exists</span>() {
-        <span class="ident">OpenOptions</span>::<span class="ident">new</span>().<span class="ident">append</span>(<span class="bool-val">true</span>).<span class="ident">open</span>(<span class="ident">file_path</span>)
-    } <span class="kw">else</span> {
-        <span class="ident">File</span>::<span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="ident">file_path</span>)
-    };
-
-    <span class="kw">match</span> <span class="ident">result</span> {
-        <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">fd</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">fd</span>.<span class="ident">write_all</span>(<span class="ident">data</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">fd</span>.<span class="ident">sync_all</span>() {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-                <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
-                    <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
-                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error finish up writing to file: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
-                        <span class="prelude-val">Some</span>(<span class="ident">error</span>),
-                    ),
-                }),
-            },
-            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
-                <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
-                    <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error while writing to file: {:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
-                    <span class="prelude-val">Some</span>(<span class="ident">error</span>),
-                ),
-            }),
-        },
-        <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
-            <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
-                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Unable to create/open file: {:?} for writing.&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">file_path</span>).<span class="ident">to_string</span>(),
-                <span class="prelude-val">Some</span>(<span class="ident">error</span>),
-            ),
-        }),
     }
 }
 </pre></div>

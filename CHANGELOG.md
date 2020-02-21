@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.1.2
+### v0.1.2 (2020-02-21)
 
 * New file::modify_file function.
 

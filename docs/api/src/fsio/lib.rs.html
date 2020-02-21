@@ -203,6 +203,19 @@
 <span id="203">203</span>
 <span id="204">204</span>
 <span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">absolute_paths_not_starting_with_crate</span>,
@@ -324,6 +337,8 @@
 <span class="doccomment">//! extern crate fsio;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! use crate::fsio::{directory, file, path};</span>
+<span class="doccomment">//! use std::fs::File;</span>
+<span class="doccomment">//! use std::io::Write;</span>
 <span class="doccomment">//! use std::path::Path;</span>
 <span class="doccomment">//! use std::str;</span>
 <span class="doccomment">//!</span>
@@ -338,7 +353,7 @@
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!     result = file::append_text_file(file_path, &quot;\nmore content&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
-<span class="doccomment">//!     let text = file::read_text_file(file_path).unwrap();</span>
+<span class="doccomment">//!     let mut text = file::read_text_file(file_path).unwrap();</span>
 <span class="doccomment">//!     assert_eq!(text, &quot;some content\nmore content&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // create/append and read binary files</span>
@@ -350,10 +365,21 @@
 <span class="doccomment">//!     let data = file::read_file(file_path).unwrap();</span>
 <span class="doccomment">//!     assert_eq!(str::from_utf8(&amp;data).unwrap(), &quot;some content\nmore content&quot;);</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//!     // custom writing</span>
+<span class="doccomment">//!     file_path = &quot;./target/__test/file_test/modify_file/file.txt&quot;;</span>
+<span class="doccomment">//!     result = file::modify_file(</span>
+<span class="doccomment">//!         file_path,</span>
+<span class="doccomment">//!         &amp;move |file: &amp;mut File| file.write_all(&quot;some content&quot;.as_bytes()),</span>
+<span class="doccomment">//!         false,</span>
+<span class="doccomment">//!     );</span>
+<span class="doccomment">//!     assert!(result.is_ok());</span>
+<span class="doccomment">//!     text = file::read_text_file(file_path).unwrap();</span>
+<span class="doccomment">//!     assert_eq!(text, &quot;some content&quot;);</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//!     // delete file</span>
 <span class="doccomment">//!     result = file::delete(file_path);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
-<span class="doccomment">//!     </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//!     // directory operations</span>
 <span class="doccomment">//!     result = directory::create(&quot;./target/__test/example/directory_test/dir1/dir2&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>

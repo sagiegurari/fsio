@@ -1,6 +1,8 @@
 extern crate fsio;
 
 use crate::fsio::{directory, file, path};
+use std::fs::File;
+use std::io::Write;
 use std::path::Path;
 use std::str;
 
@@ -15,7 +17,7 @@ fn main() {
     assert!(result.is_ok());
     result = file::append_text_file(file_path, "\nmore content");
     assert!(result.is_ok());
-    let text = file::read_text_file(file_path).unwrap();
+    let mut text = file::read_text_file(file_path).unwrap();
     assert_eq!(text, "some content\nmore content");
 
     // create/append and read binary files
@@ -26,6 +28,17 @@ fn main() {
     assert!(result.is_ok());
     let data = file::read_file(file_path).unwrap();
     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
+
+    // custom writing
+    file_path = "./target/__test/file_test/modify_file/file.txt";
+    result = file::modify_file(
+        file_path,
+        &move |file: &mut File| file.write_all("some content".as_bytes()),
+        false,
+    );
+    assert!(result.is_ok());
+    text = file::read_text_file(file_path).unwrap();
+    assert_eq!(text, "some content");
 
     // delete file
     result = file::delete(file_path);

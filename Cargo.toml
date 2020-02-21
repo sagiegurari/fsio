@@ -1,6 +1,6 @@
 [package]
 name = "fsio"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "File System and Path utility functions."
 license = "Apache-2.0"
