@@ -26,8 +26,6 @@ use from_path::FromPath;
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use fsio::path;
 /// use fsio::path::as_path::AsPath;
 /// use std::path::Path;
@@ -64,8 +62,6 @@ pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> Result<String, Fs
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use fsio::path;
 /// use fsio::path::as_path::AsPath;
 /// use std::path::Path;
@@ -95,8 +91,6 @@ pub fn canonicalize_or<T: AsPath + ?Sized>(path: &T, or_value: &str) -> String {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use fsio::path;
 /// use fsio::path::as_path::AsPath;
 /// use std::path::Path;
@@ -125,8 +119,6 @@ pub fn get_basename<T: AsPath + ?Sized>(path: &T) -> Option<String> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use fsio::path;
 /// use fsio::path::as_path::AsPath;
 /// use std::path::Path;
@@ -170,8 +162,6 @@ pub fn get_parent_directory<T: AsPath + ?Sized>(path: &T) -> Option<String> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use fsio::path;
 ///
 /// fn main() {

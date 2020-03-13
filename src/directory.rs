@@ -21,8 +21,6 @@ use std::fs::{create_dir_all, remove_dir_all};
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::directory;
 /// use std::path::Path;
 ///
@@ -62,8 +60,6 @@ pub fn create<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::directory;
 /// use std::path::Path;
 ///
@@ -91,8 +87,6 @@ pub fn create_parent<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::{directory, file};
 /// use std::path::Path;
 ///

@@ -24,8 +24,6 @@ use std::io::Write;
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 ///
@@ -76,8 +74,6 @@ pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 ///
@@ -106,8 +102,6 @@ pub fn write_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), F
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 ///
@@ -138,8 +132,6 @@ pub fn append_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), 
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 /// use std::str;
@@ -171,8 +163,6 @@ pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOE
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 /// use std::str;
@@ -205,8 +195,6 @@ pub fn append_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIO
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::fs::File;
 /// use std::io::Write;
@@ -284,8 +272,6 @@ pub fn modify_file<T: AsPath + ?Sized>(
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 ///
@@ -322,8 +308,6 @@ pub fn read_text_file<T: AsPath + ?Sized>(path: &T) -> Result<String, FsIOError>
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 /// use std::str;
@@ -364,8 +348,6 @@ pub fn read_file<T: AsPath + ?Sized>(path: &T) -> Result<Vec<u8>, FsIOError> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 /// use std::str;
@@ -420,8 +402,6 @@ pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 /// # Example
 ///
 /// ```
-/// extern crate fsio;
-///
 /// use crate::fsio::file;
 /// use std::path::Path;
 /// use std::str;
