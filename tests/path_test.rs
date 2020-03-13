@@ -1,8 +1,6 @@
-extern crate fsio;
-
-use crate::fsio::path;
-use crate::fsio::path::as_path::AsPath;
-use crate::fsio::path::from_path::FromPath;
+use fsio::path;
+use fsio::path::as_path::AsPath;
+use fsio::path::from_path::FromPath;
 use std::path::{Path, PathBuf};
 
 #[test]

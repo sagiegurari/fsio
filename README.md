@@ -29,9 +29,7 @@ There are multiple main modules for fsio:
 ### Examples
 
 ```rust
-extern crate fsio;
-
-use crate::fsio::{directory, file, path};
+use fsio::{directory, file, path};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;

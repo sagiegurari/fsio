@@ -1,6 +1,4 @@
-extern crate fsio;
-
-use crate::fsio::file;
+use fsio::file;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;

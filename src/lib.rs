@@ -212,6 +212,9 @@
 //! [Apache 2](https://github.com/sagiegurari/fsio/blob/master/LICENSE) open source license.
 //!
 
+#[cfg(doctest)]
+doc_comment::doctest!("../README.md");
+
 pub mod directory;
 pub mod error;
 pub mod file;

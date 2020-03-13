@@ -29,6 +29,9 @@ rand = { version = "^0.7", optional = true }
 [target.'cfg(not(windows))'.dependencies]
 users = { version = "^0.9", optional = true }
 
+[dev-dependencies]
+doc-comment = "^0.3"
+
 [features]
 default = []
 temp-path = [ "rand", "users" ]

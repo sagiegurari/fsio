@@ -1,6 +1,4 @@
-extern crate fsio;
-
-use crate::fsio::{directory, file};
+use fsio::{directory, file};
 use std::path::Path;
 
 #[test]
