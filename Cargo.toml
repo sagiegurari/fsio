@@ -36,16 +36,6 @@ doc-comment = "^0.3"
 default = []
 temp-path = [ "rand", "users" ]
 
-[badges.travis-ci]
-branch = "master"
-repository = "sagiegurari/fsio"
-
-[badges.appveyor]
-repository = "sagiegurari/fsio"
-service = "github"
-branch = "master"
-project_name = "sagiegurari/fsio"
-
 [badges.codecov]
 branch = "master"
 repository = "sagiegurari/fsio"
