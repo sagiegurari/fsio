@@ -31,6 +31,7 @@ users = { version = "^0.9", optional = true }
 
 [dev-dependencies]
 doc-comment = "^0.3"
+rusty-hook = "^0.10"
 
 [features]
 default = []

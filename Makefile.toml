@@ -13,7 +13,7 @@ script = [
     "rm -Rf ./target/__test"
 ]
 
-[tasks.test]
+[tasks.pre-test]
 dependencies = [
     "clean-target-test-directory"
 ]
