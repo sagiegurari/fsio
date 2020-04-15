@@ -107,7 +107,7 @@ In order to use this library, just add it as a dependency:
 
 ```ini
 [dependencies]
-fsio = "*"
+fsio = "^0.1.2"
 ```
 
 If you need access to temporary file paths, enable the **temp-path** feature as follows:
