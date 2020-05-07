@@ -1,6 +1,6 @@
 # fsio
 
-[![crates.io](https://img.shields.io/crates/v/fsio.svg)](https://crates.io/crates/fsio) [![Continuous Integration](https://github.com/sagiegurari/fsio/workflows/Continuous%20Integration/badge.svg?branch=master)](https://github.com/sagiegurari/fsio/actions) [![codecov](https://codecov.io/gh/sagiegurari/fsio/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/fsio)<br>
+[![crates.io](https://img.shields.io/crates/v/fsio.svg)](https://crates.io/crates/fsio) [![CI](https://github.com/sagiegurari/fsio/workflows/CI/badge.svg?branch=master)](https://github.com/sagiegurari/fsio/actions) [![codecov](https://codecov.io/gh/sagiegurari/fsio/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/fsio)<br>
 [![license](https://img.shields.io/crates/l/fsio.svg)](https://github.com/sagiegurari/fsio/blob/master/LICENSE) [![Libraries.io for GitHub](https://img.shields.io/librariesio/github/sagiegurari/fsio.svg)](https://libraries.io/cargo/fsio) [![Documentation](https://docs.rs/fsio/badge.svg)](https://docs.rs/crate/fsio/) [![downloads](https://img.shields.io/crates/d/fsio.svg)](https://crates.io/crates/fsio)<br>
 [![Built with cargo-make](https://sagiegurari.github.io/cargo-make/assets/badges/cargo-make.svg)](https://sagiegurari.github.io/cargo-make)
 
