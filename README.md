@@ -28,6 +28,7 @@ There are multiple main modules for fsio:
 
 ### Examples
 
+<!--{ "examples/example.rs" | lines: 1 | code: rust }-->
 ```rust
 use fsio::{directory, file, path};
 use std::fs::File;
@@ -100,6 +101,7 @@ fn main() {
     assert_eq!(path1.unwrap(), path2);
 }
 ```
+<!--{ end }-->
 
 <a name="installation"></a>
 ## Installation
