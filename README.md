@@ -99,6 +99,10 @@ fn main() {
     let path2 = path::canonicalize_or("./src/path/mod.rs", "/src/path/mod.rs");
 
     assert_eq!(path1.unwrap(), path2);
+
+    // get last modified time
+    let time = path::get_last_modified_time("./src/path/mod.rs").unwrap();
+    assert!(time > 0);
 }
 ```
 <!--{ end }-->
@@ -109,7 +113,7 @@ In order to use this library, just add it as a dependency:
 
 ```ini
 [dependencies]
-fsio = "^0.1.2"
+fsio = "^0.1.3"
 ```
 
 If you need access to temporary file paths, enable the **temp-path** feature as follows:

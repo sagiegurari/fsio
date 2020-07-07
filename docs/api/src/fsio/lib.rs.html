@@ -216,26 +216,59 @@
 <span id="216">216</span>
 <span id="217">217</span>
 <span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">absolute_paths_not_starting_with_crate</span>,
     <span class="ident">ambiguous_associated_items</span>,
     <span class="ident">anonymous_parameters</span>,
+    <span class="ident">arithmetic_overflow</span>,
     <span class="ident">array_into_iter</span>,
+    <span class="ident">asm_sub_register</span>,
     <span class="ident">bindings_with_variant_name</span>,
+    <span class="ident">cenum_impl_drop_cast</span>,
+    <span class="ident">clashing_extern_declarations</span>,
+    <span class="ident">coherence_leak_check</span>,
+    <span class="ident">conflicting_repr_hints</span>,
+    <span class="ident">confusable_idents</span>,
     <span class="ident">const_err</span>,
     <span class="ident">dead_code</span>,
     <span class="ident">deprecated</span>,
     <span class="ident">deprecated_in_future</span>,
     <span class="ident">ellipsis_inclusive_range_patterns</span>,
-    <span class="ident">exceeding_bitshifts</span>,
     <span class="ident">explicit_outlives_requirements</span>,
     <span class="ident">exported_private_dependencies</span>,
     <span class="ident">ill_formed_attribute_input</span>,
     <span class="ident">illegal_floating_point_literal_pattern</span>,
     <span class="ident">improper_ctypes</span>,
+    <span class="ident">improper_ctypes_definitions</span>,
     <span class="ident">incomplete_features</span>,
+    <span class="ident">incomplete_include</span>,
     <span class="ident">indirect_structural_match</span>,
+    <span class="ident">inline_no_sanitize</span>,
+    <span class="ident">invalid_codeblock_attribute</span>,
     <span class="ident">invalid_type_param_default</span>,
     <span class="ident">invalid_value</span>,
     <span class="ident">irrefutable_let_patterns</span>,
@@ -244,8 +277,10 @@
     <span class="ident">macro_expanded_macro_exports_accessed_by_absolute_paths</span>,
     <span class="ident">meta_variable_misuse</span>,
     <span class="ident">missing_copy_implementations</span>,
+    <span class="ident">missing_crate_level_docs</span>,
     <span class="ident">missing_docs</span>,
     <span class="ident">missing_fragment_specifier</span>,
+    <span class="ident">mixed_script_confusables</span>,
     <span class="ident">mutable_borrow_reservation_conflict</span>,
     <span class="ident">mutable_transmutes</span>,
     <span class="ident">no_mangle_const_items</span>,
@@ -264,7 +299,7 @@
     <span class="ident">private_in_public</span>,
     <span class="ident">proc_macro_derive_resolution_fallback</span>,
     <span class="ident">pub_use_of_private_extern_crate</span>,
-    <span class="ident">redundant_semicolon</span>,
+    <span class="ident">redundant_semicolons</span>,
     <span class="ident">safe_packed_borrows</span>,
     <span class="ident">soft_unstable</span>,
     <span class="ident">stable_features</span>,
@@ -273,7 +308,9 @@
     <span class="ident">trivial_numeric_casts</span>,
     <span class="ident">type_alias_bounds</span>,
     <span class="ident">tyvar_behind_raw_pointer</span>,
+    <span class="ident">unaligned_references</span>,
     <span class="ident">uncommon_codepoints</span>,
+    <span class="ident">unconditional_panic</span>,
     <span class="ident">unconditional_recursion</span>,
     <span class="ident">unknown_crate_types</span>,
     <span class="ident">unnameable_test_items</span>,
@@ -286,7 +323,9 @@
     <span class="ident">unused_allocation</span>,
     <span class="ident">unused_assignments</span>,
     <span class="ident">unused_attributes</span>,
+    <span class="ident">unused_braces</span>,
     <span class="ident">unused_comparisons</span>,
+    <span class="ident">unused_crate_dependencies</span>,
     <span class="ident">unused_doc_comments</span>,
     <span class="ident">unused_extern_crates</span>,
     <span class="ident">unused_features</span>,
@@ -334,9 +373,7 @@
 <span class="doccomment">//! ### Examples</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! extern crate fsio;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! use crate::fsio::{directory, file, path};</span>
+<span class="doccomment">//! use fsio::{directory, file, path};</span>
 <span class="doccomment">//! use std::fs::File;</span>
 <span class="doccomment">//! use std::io::Write;</span>
 <span class="doccomment">//! use std::path::Path;</span>
@@ -431,9 +468,18 @@
 <span class="doccomment">//! [Apache 2](https://github.com/sagiegurari/fsio/blob/master/LICENSE) open source license.</span>
 <span class="doccomment">//!</span>
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">use</span> <span class="ident">doc_comment</span> <span class="kw">as</span> <span class="kw">_</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">use</span> <span class="ident">rusty_hook</span> <span class="kw">as</span> <span class="kw">_</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">doctest</span>)]</span>
+<span class="ident">doc_comment</span>::<span class="macro">doctest</span><span class="macro">!</span>(<span class="string">&quot;../README.md&quot;</span>);
+
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">directory</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">file</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">path</span>;
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "fsio";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "fsio";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

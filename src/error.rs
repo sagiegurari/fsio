@@ -6,6 +6,7 @@
 use std::fmt;
 use std::fmt::Display;
 use std::io;
+use std::time::SystemTimeError;
 
 #[cfg(test)]
 #[path = "./error_test.rs"]
@@ -14,12 +15,14 @@ mod error_test;
 #[derive(Debug)]
 /// Holds the error information
 pub enum ErrorInfo {
-    /// Error Info Type
+    /// Path already exist error type
     PathAlreadyExists(String),
-    /// Error Info Type
+    /// Not a file error type
     NotFile(String),
-    /// Error Info Type
+    /// IO error type
     IOError(String, Option<io::Error>),
+    /// System time error type
+    SystemTimeError(String, Option<SystemTimeError>),
 }
 
 #[derive(Debug)]
@@ -36,6 +39,13 @@ impl Display for FsIOError {
             ErrorInfo::PathAlreadyExists(ref message) => write!(formatter, "{}", message),
             ErrorInfo::NotFile(ref message) => write!(formatter, "{}", message),
             ErrorInfo::IOError(ref message, ref cause) => {
+                writeln!(formatter, "{}", message)?;
+                match cause {
+                    Some(cause_err) => cause_err.fmt(formatter),
+                    None => Ok(()),
+                }
+            }
+            ErrorInfo::SystemTimeError(ref message, ref cause) => {
                 writeln!(formatter, "{}", message)?;
                 match cause {
                     Some(cause_err) => cause_err.fmt(formatter),

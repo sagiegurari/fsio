@@ -121,6 +121,24 @@ fn get_parent_directory_only_root() {
 }
 
 #[test]
+fn get_last_modified_time_file() {
+    let time = get_last_modified_time("./Cargo.toml").unwrap();
+    assert!(time > 0);
+}
+
+#[test]
+fn get_last_modified_time_directory() {
+    let time = get_last_modified_time("./src").unwrap();
+    assert!(time > 0);
+}
+
+#[test]
+fn get_last_modified_time_not_found() {
+    let result = get_last_modified_time("./badfile");
+    assert!(result.is_err());
+}
+
+#[test]
 #[cfg(feature = "temp-path")]
 fn get_temporary_file_path_valid() {
     let temp_file = get_temporary_file_path("txt");

@@ -23,3 +23,11 @@ fn display_error_io_error() {
     };
     println!("{}", error);
 }
+
+#[test]
+fn display_error_system_time_error() {
+    let error = FsIOError {
+        info: ErrorInfo::SystemTimeError("test".to_string(), None),
+    };
+    println!("{}", error);
+}

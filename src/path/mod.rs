@@ -16,6 +16,8 @@ mod mod_test;
 use crate::error::{ErrorInfo, FsIOError};
 use as_path::AsPath;
 use from_path::FromPath;
+use std::fs;
+use std::time::SystemTime;
 
 /// Returns a canonicalized string from the provided path value.
 ///
@@ -144,6 +146,53 @@ pub fn get_parent_directory<T: AsPath + ?Sized>(path: &T) -> Option<String> {
             }
         }
         None => None,
+    }
+}
+
+/// Returns the last modified time of the provided path in millies since
+/// unix epoch time.
+///
+/// # Arguments
+///
+/// * `path` - The path value
+///
+/// # Example
+///
+/// ```
+/// use fsio::path;
+///
+/// fn main() {
+///     let time = path::get_last_modified_time("./src/path/mod.rs").unwrap();
+///
+///     assert!(time > 0);
+/// }
+/// ```
+
+pub fn get_last_modified_time(path: &str) -> Result<u128, FsIOError> {
+    match fs::metadata(path) {
+        Ok(metadata) => match metadata.modified() {
+            Ok(time) => match time.duration_since(SystemTime::UNIX_EPOCH) {
+                Ok(duration) => Ok(duration.as_millis()),
+                Err(error) => Err(FsIOError {
+                    info: ErrorInfo::SystemTimeError(
+                        "Unable to get last modified duration for path.".to_string(),
+                        Some(error),
+                    ),
+                }),
+            },
+            Err(error) => Err(FsIOError {
+                info: ErrorInfo::IOError(
+                    "Unable to extract modified time for path.".to_string(),
+                    Some(error),
+                ),
+            }),
+        },
+        Err(error) => Err(FsIOError {
+            info: ErrorInfo::IOError(
+                "Unable to extract metadata for path.".to_string(),
+                Some(error),
+            ),
+        }),
     }
 }
 

@@ -91,3 +91,10 @@ fn get_parent_directory_test() {
 
     assert_eq!(dirname.unwrap(), "./src/path");
 }
+
+#[test]
+fn get_last_modified_time_test() {
+    let time = path::get_last_modified_time("./src/path/mod.rs").unwrap();
+
+    assert!(time > 0);
+}

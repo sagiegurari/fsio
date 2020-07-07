@@ -67,4 +67,8 @@ fn main() {
     let path2 = path::canonicalize_or("./src/path/mod.rs", "/src/path/mod.rs");
 
     assert_eq!(path1.unwrap(), path2);
+
+    // get last modified time
+    let time = path::get_last_modified_time("./src/path/mod.rs").unwrap();
+    assert!(time > 0);
 }

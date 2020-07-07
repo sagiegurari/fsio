@@ -184,6 +184,45 @@
 <span id="184">184</span>
 <span id="185">185</span>
 <span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! # path</span>
 <span class="doccomment">//!</span>
@@ -203,6 +242,8 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ErrorInfo</span>, <span class="ident">FsIOError</span>};
 <span class="kw">use</span> <span class="ident">as_path</span>::<span class="ident">AsPath</span>;
 <span class="kw">use</span> <span class="ident">from_path</span>::<span class="ident">FromPath</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">SystemTime</span>;
 
 <span class="doccomment">/// Returns a canonicalized string from the provided path value.</span>
 <span class="doccomment">///</span>
@@ -213,8 +254,6 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// extern crate fsio;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// use fsio::path;</span>
 <span class="doccomment">/// use fsio::path::as_path::AsPath;</span>
 <span class="doccomment">/// use std::path::Path;</span>
@@ -251,8 +290,6 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// extern crate fsio;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// use fsio::path;</span>
 <span class="doccomment">/// use fsio::path::as_path::AsPath;</span>
 <span class="doccomment">/// use std::path::Path;</span>
@@ -282,8 +319,6 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// extern crate fsio;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// use fsio::path;</span>
 <span class="doccomment">/// use fsio::path::as_path::AsPath;</span>
 <span class="doccomment">/// use std::path::Path;</span>
@@ -312,8 +347,6 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// extern crate fsio;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// use fsio::path;</span>
 <span class="doccomment">/// use fsio::path::as_path::AsPath;</span>
 <span class="doccomment">/// use std::path::Path;</span>
@@ -342,6 +375,53 @@
     }
 }
 
+<span class="doccomment">/// Returns the last modified time of the provided path in millies since</span>
+<span class="doccomment">/// unix epoch time.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Arguments</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// * `path` - The path value</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use fsio::path;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// fn main() {</span>
+<span class="doccomment">///     let time = path::get_last_modified_time(&quot;./src/path/mod.rs&quot;).unwrap();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     assert!(time &gt; 0);</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_last_modified_time</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u128</span>, <span class="ident">FsIOError</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="ident">fs</span>::<span class="ident">metadata</span>(<span class="ident">path</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">metadata</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">metadata</span>.<span class="ident">modified</span>() {
+            <span class="prelude-val">Ok</span>(<span class="ident">time</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">time</span>.<span class="ident">duration_since</span>(<span class="ident">SystemTime</span>::<span class="ident">UNIX_EPOCH</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">duration</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">duration</span>.<span class="ident">as_millis</span>()),
+                <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+                    <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">SystemTimeError</span>(
+                        <span class="string">&quot;Unable to get last modified duration for path.&quot;</span>.<span class="ident">to_string</span>(),
+                        <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+                    ),
+                }),
+            },
+            <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+                <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
+                    <span class="string">&quot;Unable to extract modified time for path.&quot;</span>.<span class="ident">to_string</span>(),
+                    <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+                ),
+            }),
+        },
+        <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">FsIOError</span> {
+            <span class="ident">info</span>: <span class="ident">ErrorInfo</span>::<span class="ident">IOError</span>(
+                <span class="string">&quot;Unable to extract metadata for path.&quot;</span>.<span class="ident">to_string</span>(),
+                <span class="prelude-val">Some</span>(<span class="ident">error</span>),
+            ),
+        }),
+    }
+}
+
 <span class="doccomment">/// Returns a temporary file path.</span>
 <span class="doccomment">/// The file does not exist after this function exists and can be used to create</span>
 <span class="doccomment">/// a file in the OS temporary directory.</span>
@@ -357,8 +437,6 @@
 <span class="doccomment">/// # Example</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">/// extern crate fsio;</span>
-<span class="doccomment">///</span>
 <span class="doccomment">/// use fsio::path;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// fn main() {</span>
@@ -372,4 +450,4 @@
     <span class="ident">temp_path</span>::<span class="ident">get</span>(<span class="ident">extension</span>)
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "fsio";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "fsio";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>
