@@ -167,7 +167,6 @@ pub fn get_parent_directory<T: AsPath + ?Sized>(path: &T) -> Option<String> {
 ///     assert!(time > 0);
 /// }
 /// ```
-
 pub fn get_last_modified_time(path: &str) -> Result<u128, FsIOError> {
     match fs::metadata(path) {
         Ok(metadata) => match metadata.modified() {
