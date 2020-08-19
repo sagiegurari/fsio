@@ -6,6 +6,7 @@
     array_into_iter,
     asm_sub_register,
     bindings_with_variant_name,
+    broken_intra_doc_links,
     cenum_impl_drop_cast,
     clashing_extern_declarations,
     coherence_leak_check,
@@ -26,7 +27,7 @@
     incomplete_include,
     indirect_structural_match,
     inline_no_sanitize,
-    invalid_codeblock_attribute,
+    invalid_codeblock_attributes,
     invalid_type_param_default,
     invalid_value,
     irrefutable_let_patterns,
@@ -37,7 +38,6 @@
     missing_copy_implementations,
     missing_crate_level_docs,
     missing_docs,
-    missing_fragment_specifier,
     mixed_script_confusables,
     mutable_borrow_reservation_conflict,
     mutable_transmutes,
@@ -98,15 +98,13 @@
     unused_qualifications,
     unused_unsafe,
     unused_variables,
-    where_clauses_object_safety,
-    while_true
+    where_clauses_object_safety
 )]
 #![warn(macro_use_extern_crate, unknown_lints)]
 #![allow(
     bare_trait_objects,
     box_pointers,
     elided_lifetimes_in_paths,
-    intra_doc_link_resolution_failure,
     missing_doc_code_examples,
     missing_debug_implementations,
     single_use_lifetimes,
@@ -139,11 +137,11 @@
 //!
 //! fn main() {
 //!     // file operations
-//!     let mut result = file::ensure_exists("./target/__test/example/file_test/dir1/dir2/file.txt");
+//!     let mut result = file::ensure_exists("./target/__test/doc/example/file_test/dir1/dir2/file.txt");
 //!     assert!(result.is_ok());
 //!
 //!     // create/append and read text files
-//!     let mut file_path = "./target/__test/example/file_test/append_text_file/file.txt";
+//!     let mut file_path = "./target/__test/example/doc/file_test/append_text_file/file.txt";
 //!     result = file::write_text_file(file_path, "some content");
 //!     assert!(result.is_ok());
 //!     result = file::append_text_file(file_path, "\nmore content");
@@ -152,7 +150,7 @@
 //!     assert_eq!(text, "some content\nmore content");
 //!
 //!     // create/append and read binary files
-//!     file_path = "./target/__test/example/file_test/append_and_read_file_test/file.txt";
+//!     file_path = "./target/__test/example/doc/file_test/append_and_read_file_test/file.txt";
 //!     result = file::write_file(file_path, "some content".as_bytes());
 //!     assert!(result.is_ok());
 //!     result = file::append_file(file_path, "\nmore content".as_bytes());
@@ -161,7 +159,7 @@
 //!     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
 //!
 //!     // custom writing
-//!     file_path = "./target/__test/file_test/modify_file/file.txt";
+//!     file_path = "./target/__test/example/doc/file_test/modify_file/file.txt";
 //!     result = file::modify_file(
 //!         file_path,
 //!         &move |file: &mut File| file.write_all("some content".as_bytes()),
@@ -176,14 +174,14 @@
 //!     assert!(result.is_ok());
 //!
 //!     // directory operations
-//!     result = directory::create("./target/__test/example/directory_test/dir1/dir2");
+//!     result = directory::create("./target/__test/example/doc/directory_test/dir1/dir2");
 //!     assert!(result.is_ok());
 //!
-//!     result = directory::create_parent("./target/__test/example/directory_test/dir1/files/file.txt");
+//!     result = directory::create_parent("./target/__test/example/doc/directory_test/dir1/files/file.txt");
 //!     assert!(result.is_ok());
 //!
 //!     // delete directory
-//!     result = directory::delete("./target/__test/example/directory_test");
+//!     result = directory::delete("./target/__test/example/doc/directory_test");
 //!     assert!(result.is_ok());
 //!
 //!     // basename and parent directory examples
