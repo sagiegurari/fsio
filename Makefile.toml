@@ -1,11 +1,12 @@
 
 [config]
 additional_profiles = [
-    "docs-all-modification-tasks",
-    "ci-coverage-tasks",
-    "ci-all-build-tasks",
-    "ci-static-code-analysis-tasks",
-    "publish-pre-cleanup"
+  "all-default-tasks",
+  "docs-all-modification-tasks",
+  "ci-coverage-tasks",
+  "ci-all-build-tasks",
+  "ci-static-code-analysis-tasks",
+  "publish-pre-cleanup",
 ]
 
 [tasks.clean-target-test-directory]
@@ -15,6 +16,4 @@ rm -Rf ./target/__test
 '''
 
 [tasks.pre-test]
-dependencies = [
-    "clean-target-test-directory"
-]
+dependencies = ["clean-target-test-directory"]
