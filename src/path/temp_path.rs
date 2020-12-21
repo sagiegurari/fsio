@@ -31,6 +31,7 @@ pub(crate) fn get(extension: &str) -> String {
     let mut rng = thread_rng();
     let file_name: String = iter::repeat(())
         .map(|()| rng.sample(Alphanumeric))
+        .map(char::from)
         .take(10)
         .collect();
 
