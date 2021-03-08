@@ -7,7 +7,7 @@
 #[path = "./directory_test.rs"]
 mod directory_test;
 
-use crate::error::{ErrorInfo, FsIOError};
+use crate::error::FsIOError;
 use crate::path::as_path::AsPath;
 use crate::path::get_parent_directory;
 use std::fs::{create_dir_all, remove_dir_all};
@@ -41,12 +41,11 @@ pub fn create<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 
     match create_dir_all(&directory_path) {
         Ok(_) => Ok(()),
-        Err(error) => Err(FsIOError {
-            info: ErrorInfo::IOError(
+        Err(error) => Err(FsIOError::IOError(
                 format!("Unable to create directory: {:?}.", &directory_path).to_string(),
                 Some(error),
             ),
-        }),
+        ),
     }
 }
 
@@ -108,19 +107,17 @@ pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
         if directory_path.is_dir() {
             match remove_dir_all(directory_path) {
                 Ok(_) => Ok(()),
-                Err(error) => Err(FsIOError {
-                    info: ErrorInfo::IOError(
+                Err(error) => Err(FsIOError::IOError(
                         format!("Unable to delete directory: {:?}", &directory_path).to_string(),
                         Some(error),
                     ),
-                }),
+                ),
             }
         } else {
-            Err(FsIOError {
-                info: ErrorInfo::NotFile(
+            Err(FsIOError::NotFile(
                     format!("Path: {:?} is not a directory.", &directory_path).to_string(),
                 ),
-            })
+            )
         }
     } else {
         Ok(())
