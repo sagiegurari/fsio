@@ -10,6 +10,7 @@ mod directory_test;
 use crate::error::FsIOError;
 use crate::path::as_path::AsPath;
 use crate::path::get_parent_directory;
+use crate::types::FsIOResult;
 use std::fs::{create_dir_all, remove_dir_all};
 
 /// Creates the directory (and if needed the parent directories) for the provided path.
@@ -32,7 +33,7 @@ use std::fs::{create_dir_all, remove_dir_all};
 ///     assert!(path.exists());
 /// }
 /// ```
-pub fn create<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
+pub fn create<T: AsPath + ?Sized>(path: &T) -> FsIOResult<()> {
     let directory_path = path.as_path();
 
     if directory_path.is_dir() && directory_path.exists() {
@@ -42,10 +43,9 @@ pub fn create<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
     match create_dir_all(&directory_path) {
         Ok(_) => Ok(()),
         Err(error) => Err(FsIOError::IOError(
-                format!("Unable to create directory: {:?}.", &directory_path).to_string(),
-                Some(error),
-            ),
-        ),
+            format!("Unable to create directory: {:?}.", &directory_path).to_string(),
+            Some(error),
+        )),
     }
 }
 
@@ -70,7 +70,7 @@ pub fn create<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 ///     assert!(path.exists());
 /// }
 /// ```
-pub fn create_parent<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
+pub fn create_parent<T: AsPath + ?Sized>(path: &T) -> FsIOResult<()> {
     match get_parent_directory(path) {
         Some(directory) => create(&directory),
         None => Ok(()),
@@ -100,7 +100,7 @@ pub fn create_parent<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 ///     assert!(!path.exists());
 /// }
 /// ```
-pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
+pub fn delete<T: AsPath + ?Sized>(path: &T) -> FsIOResult<()> {
     let directory_path = path.as_path();
 
     if directory_path.exists() {
@@ -108,16 +108,14 @@ pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
             match remove_dir_all(directory_path) {
                 Ok(_) => Ok(()),
                 Err(error) => Err(FsIOError::IOError(
-                        format!("Unable to delete directory: {:?}", &directory_path).to_string(),
-                        Some(error),
-                    ),
-                ),
+                    format!("Unable to delete directory: {:?}", &directory_path).to_string(),
+                    Some(error),
+                )),
             }
         } else {
             Err(FsIOError::NotFile(
-                    format!("Path: {:?} is not a directory.", &directory_path).to_string(),
-                ),
-            )
+                format!("Path: {:?} is not a directory.", &directory_path).to_string(),
+            ))
         }
     } else {
         Ok(())

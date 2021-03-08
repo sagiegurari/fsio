@@ -1,4 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../fsio/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../fsio/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -239,6 +242,22 @@
 <span id="239">239</span>
 <span id="240">240</span>
 <span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(
     <span class="ident">absolute_paths_not_starting_with_crate</span>,
@@ -248,18 +267,23 @@
     <span class="ident">array_into_iter</span>,
     <span class="ident">asm_sub_register</span>,
     <span class="ident">bindings_with_variant_name</span>,
+    <span class="ident">broken_intra_doc_links</span>,
     <span class="ident">cenum_impl_drop_cast</span>,
     <span class="ident">clashing_extern_declarations</span>,
     <span class="ident">coherence_leak_check</span>,
     <span class="ident">conflicting_repr_hints</span>,
     <span class="ident">confusable_idents</span>,
     <span class="ident">const_err</span>,
+    <span class="ident">const_evaluatable_unchecked</span>,
+    <span class="ident">const_item_mutation</span>,
     <span class="ident">dead_code</span>,
     <span class="ident">deprecated</span>,
     <span class="ident">deprecated_in_future</span>,
+    <span class="ident">drop_bounds</span>,
     <span class="ident">ellipsis_inclusive_range_patterns</span>,
     <span class="ident">explicit_outlives_requirements</span>,
     <span class="ident">exported_private_dependencies</span>,
+    <span class="ident">function_item_references</span>,
     <span class="ident">ill_formed_attribute_input</span>,
     <span class="ident">illegal_floating_point_literal_pattern</span>,
     <span class="ident">improper_ctypes</span>,
@@ -268,7 +292,7 @@
     <span class="ident">incomplete_include</span>,
     <span class="ident">indirect_structural_match</span>,
     <span class="ident">inline_no_sanitize</span>,
-    <span class="ident">invalid_codeblock_attribute</span>,
+    <span class="ident">invalid_codeblock_attributes</span>,
     <span class="ident">invalid_type_param_default</span>,
     <span class="ident">invalid_value</span>,
     <span class="ident">irrefutable_let_patterns</span>,
@@ -276,6 +300,7 @@
     <span class="ident">late_bound_lifetime_arguments</span>,
     <span class="ident">macro_expanded_macro_exports_accessed_by_absolute_paths</span>,
     <span class="ident">meta_variable_misuse</span>,
+    <span class="ident">missing_abi</span>,
     <span class="ident">missing_copy_implementations</span>,
     <span class="ident">missing_crate_level_docs</span>,
     <span class="ident">missing_docs</span>,
@@ -286,23 +311,29 @@
     <span class="ident">no_mangle_const_items</span>,
     <span class="ident">no_mangle_generic_items</span>,
     <span class="ident">non_ascii_idents</span>,
+    <span class="ident">non_autolinks</span>,
     <span class="ident">non_camel_case_types</span>,
     <span class="ident">non_shorthand_field_patterns</span>,
     <span class="ident">non_snake_case</span>,
     <span class="ident">non_upper_case_globals</span>,
+    <span class="ident">nontrivial_structural_match</span>,
     <span class="ident">order_dependent_trait_objects</span>,
     <span class="ident">overflowing_literals</span>,
-    <span class="ident">overlapping_patterns</span>,
+    <span class="ident">overlapping_range_endpoints</span>,
+    <span class="ident">panic_fmt</span>,
     <span class="ident">path_statements</span>,
     <span class="ident">patterns_in_fns_without_body</span>,
+    <span class="ident">pointer_structural_match</span>,
     <span class="ident">private_doc_tests</span>,
     <span class="ident">private_in_public</span>,
+    <span class="ident">private_intra_doc_links</span>,
     <span class="ident">proc_macro_derive_resolution_fallback</span>,
     <span class="ident">pub_use_of_private_extern_crate</span>,
     <span class="ident">redundant_semicolons</span>,
     <span class="ident">safe_packed_borrows</span>,
     <span class="ident">soft_unstable</span>,
     <span class="ident">stable_features</span>,
+    <span class="ident">temporary_cstring_as_ptr</span>,
     <span class="ident">trivial_bounds</span>,
     <span class="ident">trivial_casts</span>,
     <span class="ident">trivial_numeric_casts</span>,
@@ -312,6 +343,7 @@
     <span class="ident">uncommon_codepoints</span>,
     <span class="ident">unconditional_panic</span>,
     <span class="ident">unconditional_recursion</span>,
+    <span class="ident">uninhabited_static</span>,
     <span class="ident">unknown_crate_types</span>,
     <span class="ident">unnameable_test_items</span>,
     <span class="ident">unreachable_code</span>,
@@ -320,6 +352,7 @@
     <span class="ident">unsafe_code</span>,
     <span class="ident">unstable_features</span>,
     <span class="ident">unstable_name_collisions</span>,
+    <span class="ident">unsupported_naked_functions</span>,
     <span class="ident">unused_allocation</span>,
     <span class="ident">unused_assignments</span>,
     <span class="ident">unused_attributes</span>,
@@ -340,6 +373,7 @@
     <span class="ident">unused_qualifications</span>,
     <span class="ident">unused_unsafe</span>,
     <span class="ident">unused_variables</span>,
+    <span class="ident">useless_deprecated</span>,
     <span class="ident">where_clauses_object_safety</span>,
     <span class="ident">while_true</span>
 )]</span>
@@ -348,7 +382,7 @@
     <span class="ident">bare_trait_objects</span>,
     <span class="ident">box_pointers</span>,
     <span class="ident">elided_lifetimes_in_paths</span>,
-    <span class="ident">intra_doc_link_resolution_failure</span>,
+    <span class="ident">invalid_html_tags</span>,
     <span class="ident">missing_doc_code_examples</span>,
     <span class="ident">missing_debug_implementations</span>,
     <span class="ident">single_use_lifetimes</span>,
@@ -381,11 +415,11 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! fn main() {</span>
 <span class="doccomment">//!     // file operations</span>
-<span class="doccomment">//!     let mut result = file::ensure_exists(&quot;./target/__test/example/file_test/dir1/dir2/file.txt&quot;);</span>
+<span class="doccomment">//!     let mut result = file::ensure_exists(&quot;./target/__test/doc/example/file_test/dir1/dir2/file.txt&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // create/append and read text files</span>
-<span class="doccomment">//!     let mut file_path = &quot;./target/__test/example/file_test/append_text_file/file.txt&quot;;</span>
+<span class="doccomment">//!     let mut file_path = &quot;./target/__test/example/doc/file_test/append_text_file/file.txt&quot;;</span>
 <span class="doccomment">//!     result = file::write_text_file(file_path, &quot;some content&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!     result = file::append_text_file(file_path, &quot;\nmore content&quot;);</span>
@@ -394,7 +428,7 @@
 <span class="doccomment">//!     assert_eq!(text, &quot;some content\nmore content&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // create/append and read binary files</span>
-<span class="doccomment">//!     file_path = &quot;./target/__test/example/file_test/append_and_read_file_test/file.txt&quot;;</span>
+<span class="doccomment">//!     file_path = &quot;./target/__test/example/doc/file_test/append_and_read_file_test/file.txt&quot;;</span>
 <span class="doccomment">//!     result = file::write_file(file_path, &quot;some content&quot;.as_bytes());</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!     result = file::append_file(file_path, &quot;\nmore content&quot;.as_bytes());</span>
@@ -403,7 +437,7 @@
 <span class="doccomment">//!     assert_eq!(str::from_utf8(&amp;data).unwrap(), &quot;some content\nmore content&quot;);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // custom writing</span>
-<span class="doccomment">//!     file_path = &quot;./target/__test/file_test/modify_file/file.txt&quot;;</span>
+<span class="doccomment">//!     file_path = &quot;./target/__test/example/doc/file_test/modify_file/file.txt&quot;;</span>
 <span class="doccomment">//!     result = file::modify_file(</span>
 <span class="doccomment">//!         file_path,</span>
 <span class="doccomment">//!         &amp;move |file: &amp;mut File| file.write_all(&quot;some content&quot;.as_bytes()),</span>
@@ -418,14 +452,14 @@
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // directory operations</span>
-<span class="doccomment">//!     result = directory::create(&quot;./target/__test/example/directory_test/dir1/dir2&quot;);</span>
+<span class="doccomment">//!     result = directory::create(&quot;./target/__test/example/doc/directory_test/dir1/dir2&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//!     result = directory::create_parent(&quot;./target/__test/example/directory_test/dir1/files/file.txt&quot;);</span>
+<span class="doccomment">//!     result = directory::create_parent(&quot;./target/__test/example/doc/directory_test/dir1/files/file.txt&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // delete directory</span>
-<span class="doccomment">//!     result = directory::delete(&quot;./target/__test/example/directory_test&quot;);</span>
+<span class="doccomment">//!     result = directory::delete(&quot;./target/__test/example/doc/directory_test&quot;);</span>
 <span class="doccomment">//!     assert!(result.is_ok());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!     // basename and parent directory examples</span>
@@ -481,5 +515,6 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">file</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">path</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">types</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "fsio";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

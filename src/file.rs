@@ -10,6 +10,7 @@ mod file_test;
 use crate::directory;
 use crate::error::FsIOError;
 use crate::path::as_path::AsPath;
+use crate::types::FsIOResult;
 use std::fs::{read, read_to_string, remove_file, File, OpenOptions};
 use std::io;
 use std::io::Write;
@@ -35,7 +36,7 @@ use std::io::Write;
 ///     assert!(path.exists());
 /// }
 /// ```
-pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
+pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> FsIOResult<()> {
     let file_path = path.as_path();
 
     if file_path.exists() {
@@ -43,9 +44,8 @@ pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
             Ok(())
         } else {
             Err(FsIOError::PathAlreadyExists(
-                    format!("Unable to create file: {:?}", &file_path).to_string(),
-                ),
-            )
+                format!("Unable to create file: {:?}", &file_path).to_string(),
+            ))
         }
     } else {
         directory::create_parent(path)?;
@@ -53,10 +53,9 @@ pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
         match File::create(&file_path) {
             Ok(_) => Ok(()),
             Err(error) => Err(FsIOError::IOError(
-                    format!("Unable to create file: {:?}", &file_path).to_string(),
-                    Some(error),
-                ),
-            ),
+                format!("Unable to create file: {:?}", &file_path).to_string(),
+                Some(error),
+            )),
         }
     }
 }
@@ -85,7 +84,7 @@ pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
 ///     assert_eq!(text, "some content");
 /// }
 /// ```
-pub fn write_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), FsIOError> {
+pub fn write_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> FsIOResult<()> {
     write_file(path, text.as_bytes())
 }
 
@@ -115,7 +114,7 @@ pub fn write_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), F
 ///     assert_eq!(text, "some content\nmore content");
 /// }
 /// ```
-pub fn append_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), FsIOError> {
+pub fn append_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> FsIOResult<()> {
     append_file(path, text.as_bytes())
 }
 
@@ -146,7 +145,7 @@ pub fn append_text_file<T: AsPath + ?Sized>(path: &T, text: &str) -> Result<(), 
 ///     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
 /// }
 /// ```
-pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOError> {
+pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> FsIOResult<()> {
     modify_file(path, &move |file: &mut File| file.write_all(data), false)
 }
 
@@ -177,7 +176,7 @@ pub fn write_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOE
 ///     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
 /// }
 /// ```
-pub fn append_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> Result<(), FsIOError> {
+pub fn append_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> FsIOResult<()> {
     modify_file(path, &move |file: &mut File| file.write_all(data), true)
 }
 
@@ -222,7 +221,7 @@ pub fn modify_file<T: AsPath + ?Sized>(
     path: &T,
     write_content: &Fn(&mut File) -> io::Result<()>,
     append: bool,
-) -> Result<(), FsIOError> {
+) -> FsIOResult<()> {
     directory::create_parent(path)?;
 
     let file_path = path.as_path();
@@ -239,22 +238,19 @@ pub fn modify_file<T: AsPath + ?Sized>(
             Ok(_) => match fd.sync_all() {
                 Ok(_) => Ok(()),
                 Err(error) => Err(FsIOError::IOError(
-                        format!("Error finish up writing to file: {:?}", &file_path).to_string(),
-                        Some(error),
-                    ),
-                ),
+                    format!("Error finish up writing to file: {:?}", &file_path).to_string(),
+                    Some(error),
+                )),
             },
             Err(error) => Err(FsIOError::IOError(
-                    format!("Error while writing to file: {:?}", &file_path).to_string(),
-                    Some(error),
-                ),
-            ),
+                format!("Error while writing to file: {:?}", &file_path).to_string(),
+                Some(error),
+            )),
         },
         Err(error) => Err(FsIOError::IOError(
-                format!("Unable to create/open file: {:?} for writing.", &file_path).to_string(),
-                Some(error),
-            ),
-        ),
+            format!("Unable to create/open file: {:?} for writing.", &file_path).to_string(),
+            Some(error),
+        )),
     }
 }
 
@@ -280,16 +276,15 @@ pub fn modify_file<T: AsPath + ?Sized>(
 ///     assert_eq!(text, "some content");
 /// }
 /// ```
-pub fn read_text_file<T: AsPath + ?Sized>(path: &T) -> Result<String, FsIOError> {
+pub fn read_text_file<T: AsPath + ?Sized>(path: &T) -> FsIOResult<String> {
     let file_path = path.as_path();
 
     match read_to_string(&file_path) {
         Ok(content) => Ok(content),
         Err(error) => Err(FsIOError::IOError(
-                format!("Unable to read file: {:?}", &file_path).to_string(),
-                Some(error),
-            ),
-        ),
+            format!("Unable to read file: {:?}", &file_path).to_string(),
+            Some(error),
+        )),
     }
 }
 
@@ -318,16 +313,15 @@ pub fn read_text_file<T: AsPath + ?Sized>(path: &T) -> Result<String, FsIOError>
 ///     assert_eq!(str::from_utf8(&data).unwrap(), "some content\nmore content");
 /// }
 /// ```
-pub fn read_file<T: AsPath + ?Sized>(path: &T) -> Result<Vec<u8>, FsIOError> {
+pub fn read_file<T: AsPath + ?Sized>(path: &T) -> FsIOResult<Vec<u8>> {
     let file_path = path.as_path();
 
     match read(&file_path) {
         Ok(content) => Ok(content),
         Err(error) => Err(FsIOError::IOError(
-                format!("Unable to read file: {:?}", &file_path).to_string(),
-                Some(error),
-            ),
-        ),
+            format!("Unable to read file: {:?}", &file_path).to_string(),
+            Some(error),
+        )),
     }
 }
 
@@ -359,7 +353,7 @@ pub fn read_file<T: AsPath + ?Sized>(path: &T) -> Result<Vec<u8>, FsIOError> {
 ///     assert!(!path.exists());
 /// }
 /// ```
-pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
+pub fn delete<T: AsPath + ?Sized>(path: &T) -> FsIOResult<()> {
     let file_path = path.as_path();
 
     if file_path.exists() {
@@ -367,16 +361,14 @@ pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
             match remove_file(file_path) {
                 Ok(_) => Ok(()),
                 Err(error) => Err(FsIOError::IOError(
-                        format!("Unable to delete file: {:?}", &file_path).to_string(),
-                        Some(error),
-                    ),
-                ),
+                    format!("Unable to delete file: {:?}", &file_path).to_string(),
+                    Some(error),
+                )),
             }
         } else {
             Err(FsIOError::NotFile(
-                    format!("Path: {:?} is not a file.", &file_path).to_string(),
-                ),
-            )
+                format!("Path: {:?} is not a file.", &file_path).to_string(),
+            ))
         }
     } else {
         Ok(())

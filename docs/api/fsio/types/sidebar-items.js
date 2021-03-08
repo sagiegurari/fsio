@@ -1,0 +1,1 @@
+initSidebarItems({"type":[["FsIOResult","Result aliasing for project-wide error type."]]});

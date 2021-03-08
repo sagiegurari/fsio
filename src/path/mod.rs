@@ -14,6 +14,7 @@ mod temp_path;
 mod mod_test;
 
 use crate::error::FsIOError;
+use crate::types::FsIOResult;
 use as_path::AsPath;
 use from_path::FromPath;
 use std::fs;
@@ -41,7 +42,7 @@ use std::time::SystemTime;
 ///     assert_eq!(path1.unwrap(), path2.unwrap());
 /// }
 /// ```
-pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> Result<String, FsIOError> {
+pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> FsIOResult<String> {
     let path_obj = path.as_path();
 
     match path_obj.canonicalize() {
@@ -49,9 +50,10 @@ pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> Result<String, Fs
             let path_string = FromPath::from_path(&path_buf);
             Ok(path_string)
         }
-        Err(error) => Err(
-            FsIOError::IOError("Unable to canonicalize path.".to_string(), Some(error))
-        ),
+        Err(error) => Err(FsIOError::IOError(
+            "Unable to canonicalize path.".to_string(),
+            Some(error),
+        )),
     }
 }
 
@@ -167,28 +169,25 @@ pub fn get_parent_directory<T: AsPath + ?Sized>(path: &T) -> Option<String> {
 ///     assert!(time > 0);
 /// }
 /// ```
-pub fn get_last_modified_time(path: &str) -> Result<u128, FsIOError> {
+pub fn get_last_modified_time(path: &str) -> FsIOResult<u128> {
     match fs::metadata(path) {
         Ok(metadata) => match metadata.modified() {
             Ok(time) => match time.duration_since(SystemTime::UNIX_EPOCH) {
                 Ok(duration) => Ok(duration.as_millis()),
                 Err(error) => Err(FsIOError::SystemTimeError(
-                        "Unable to get last modified duration for path.".to_string(),
-                        Some(error),
-                    ),
-                ),
+                    "Unable to get last modified duration for path.".to_string(),
+                    Some(error),
+                )),
             },
             Err(error) => Err(FsIOError::IOError(
-                    "Unable to extract modified time for path.".to_string(),
-                    Some(error),
-                ),
-            ),
+                "Unable to extract modified time for path.".to_string(),
+                Some(error),
+            )),
         },
         Err(error) => Err(FsIOError::IOError(
-                "Unable to extract metadata for path.".to_string(),
-                Some(error),
-            ),
-        ),
+            "Unable to extract metadata for path.".to_string(),
+            Some(error),
+        )),
     }
 }
 

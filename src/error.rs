@@ -3,18 +3,15 @@
 //! The error structure and types.
 //!
 
+use std::error::Error;
 use std::fmt;
 use std::fmt::Display;
 use std::io;
 use std::time::SystemTimeError;
-use std::error::Error;
 
 #[cfg(test)]
 #[path = "./error_test.rs"]
 mod error_test;
-
-/// Result aliasing for project-wide error type.
-pub type FsIOResult<T> = Result<T, FsIOError>;
 
 #[derive(Debug)]
 /// Holds the error information
@@ -53,15 +50,19 @@ impl Display for FsIOError {
     }
 }
 
-impl Error for FsIOError
-{
+impl Error for FsIOError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match self
-        {
-            Self::PathAlreadyExists(_)    => None,
-            Self::NotFile(_)              => None,
-            Self::IOError(_, err)         => err.as_ref().map(|e| e as &dyn Error),
-            Self::SystemTimeError(_, err) => err.as_ref().map(|e| e as &dyn Error),
+        match self {
+            Self::PathAlreadyExists(_) => None,
+            Self::NotFile(_) => None,
+            Self::IOError(_, error) => error.as_ref().map(|io_error| {
+                let std_error: &dyn Error = io_error;
+                std_error
+            }),
+            Self::SystemTimeError(_, error) => error.as_ref().map(|system_time_error| {
+                let std_error: &dyn Error = system_time_error;
+                std_error
+            }),
         }
     }
 }

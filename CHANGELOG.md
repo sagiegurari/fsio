@@ -1,7 +1,8 @@
 ## CHANGELOG
 
-### v0.1.4
+### v0.2.0 (2021-03-08)
 
+* FsIO error to use standard error types #6 (thanks @lweberk)
 * Upgraded rand 0.8
 
 ### v0.1.3 (2020-07-08)

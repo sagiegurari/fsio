@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["fsio"] = [{"text":"impl Freeze for FsIOError","synthetic":true,"types":[]}];
+implementors["fsio"] = [{"text":"impl Error for FsIOError","synthetic":false,"types":[]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
