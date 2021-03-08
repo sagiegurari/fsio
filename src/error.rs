@@ -7,14 +7,18 @@ use std::fmt;
 use std::fmt::Display;
 use std::io;
 use std::time::SystemTimeError;
+use std::error::Error;
 
 #[cfg(test)]
 #[path = "./error_test.rs"]
 mod error_test;
 
+/// Result aliasing for project-wide error type.
+pub type FsIOResult<T> = Result<T, FsIOError>;
+
 #[derive(Debug)]
 /// Holds the error information
-pub enum ErrorInfo {
+pub enum FsIOError {
     /// Path already exist error type
     PathAlreadyExists(String),
     /// Not a file error type
@@ -25,33 +29,39 @@ pub enum ErrorInfo {
     SystemTimeError(String, Option<SystemTimeError>),
 }
 
-#[derive(Debug)]
-/// Error struct
-pub struct FsIOError {
-    /// Holds the error information
-    pub info: ErrorInfo,
-}
-
 impl Display for FsIOError {
     /// Formats the error using the given formatter.
     fn fmt(&self, formatter: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        match self.info {
-            ErrorInfo::PathAlreadyExists(ref message) => write!(formatter, "{}", message),
-            ErrorInfo::NotFile(ref message) => write!(formatter, "{}", message),
-            ErrorInfo::IOError(ref message, ref cause) => {
+        match self {
+            Self::PathAlreadyExists(ref message) => write!(formatter, "{}", message),
+            Self::NotFile(ref message) => write!(formatter, "{}", message),
+            Self::IOError(ref message, ref cause) => {
                 writeln!(formatter, "{}", message)?;
                 match cause {
                     Some(cause_err) => cause_err.fmt(formatter),
                     None => Ok(()),
                 }
             }
-            ErrorInfo::SystemTimeError(ref message, ref cause) => {
+            Self::SystemTimeError(ref message, ref cause) => {
                 writeln!(formatter, "{}", message)?;
                 match cause {
                     Some(cause_err) => cause_err.fmt(formatter),
                     None => Ok(()),
                 }
             }
+        }
+    }
+}
+
+impl Error for FsIOError
+{
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self
+        {
+            Self::PathAlreadyExists(_)    => None,
+            Self::NotFile(_)              => None,
+            Self::IOError(_, err)         => err.as_ref().map(|e| e as &dyn Error),
+            Self::SystemTimeError(_, err) => err.as_ref().map(|e| e as &dyn Error),
         }
     }
 }

@@ -8,7 +8,7 @@
 mod file_test;
 
 use crate::directory;
-use crate::error::{ErrorInfo, FsIOError};
+use crate::error::FsIOError;
 use crate::path::as_path::AsPath;
 use std::fs::{read, read_to_string, remove_file, File, OpenOptions};
 use std::io;
@@ -42,23 +42,21 @@ pub fn ensure_exists<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
         if file_path.is_file() {
             Ok(())
         } else {
-            Err(FsIOError {
-                info: ErrorInfo::PathAlreadyExists(
+            Err(FsIOError::PathAlreadyExists(
                     format!("Unable to create file: {:?}", &file_path).to_string(),
                 ),
-            })
+            )
         }
     } else {
         directory::create_parent(path)?;
 
         match File::create(&file_path) {
             Ok(_) => Ok(()),
-            Err(error) => Err(FsIOError {
-                info: ErrorInfo::IOError(
+            Err(error) => Err(FsIOError::IOError(
                     format!("Unable to create file: {:?}", &file_path).to_string(),
                     Some(error),
                 ),
-            }),
+            ),
         }
     }
 }
@@ -240,26 +238,23 @@ pub fn modify_file<T: AsPath + ?Sized>(
         Ok(mut fd) => match write_content(&mut fd) {
             Ok(_) => match fd.sync_all() {
                 Ok(_) => Ok(()),
-                Err(error) => Err(FsIOError {
-                    info: ErrorInfo::IOError(
+                Err(error) => Err(FsIOError::IOError(
                         format!("Error finish up writing to file: {:?}", &file_path).to_string(),
                         Some(error),
                     ),
-                }),
+                ),
             },
-            Err(error) => Err(FsIOError {
-                info: ErrorInfo::IOError(
+            Err(error) => Err(FsIOError::IOError(
                     format!("Error while writing to file: {:?}", &file_path).to_string(),
                     Some(error),
                 ),
-            }),
+            ),
         },
-        Err(error) => Err(FsIOError {
-            info: ErrorInfo::IOError(
+        Err(error) => Err(FsIOError::IOError(
                 format!("Unable to create/open file: {:?} for writing.", &file_path).to_string(),
                 Some(error),
             ),
-        }),
+        ),
     }
 }
 
@@ -290,12 +285,11 @@ pub fn read_text_file<T: AsPath + ?Sized>(path: &T) -> Result<String, FsIOError>
 
     match read_to_string(&file_path) {
         Ok(content) => Ok(content),
-        Err(error) => Err(FsIOError {
-            info: ErrorInfo::IOError(
+        Err(error) => Err(FsIOError::IOError(
                 format!("Unable to read file: {:?}", &file_path).to_string(),
                 Some(error),
             ),
-        }),
+        ),
     }
 }
 
@@ -329,12 +323,11 @@ pub fn read_file<T: AsPath + ?Sized>(path: &T) -> Result<Vec<u8>, FsIOError> {
 
     match read(&file_path) {
         Ok(content) => Ok(content),
-        Err(error) => Err(FsIOError {
-            info: ErrorInfo::IOError(
+        Err(error) => Err(FsIOError::IOError(
                 format!("Unable to read file: {:?}", &file_path).to_string(),
                 Some(error),
             ),
-        }),
+        ),
     }
 }
 
@@ -373,19 +366,17 @@ pub fn delete<T: AsPath + ?Sized>(path: &T) -> Result<(), FsIOError> {
         if file_path.is_file() {
             match remove_file(file_path) {
                 Ok(_) => Ok(()),
-                Err(error) => Err(FsIOError {
-                    info: ErrorInfo::IOError(
+                Err(error) => Err(FsIOError::IOError(
                         format!("Unable to delete file: {:?}", &file_path).to_string(),
                         Some(error),
                     ),
-                }),
+                ),
             }
         } else {
-            Err(FsIOError {
-                info: ErrorInfo::NotFile(
+            Err(FsIOError::NotFile(
                     format!("Path: {:?} is not a file.", &file_path).to_string(),
                 ),
-            })
+            )
         }
     } else {
         Ok(())

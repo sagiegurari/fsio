@@ -74,7 +74,7 @@
     stable_features,
     temporary_cstring_as_ptr,
     trivial_bounds,
-    trivial_casts,
+    // trivial_casts,  make warning instead?
     trivial_numeric_casts,
     type_alias_bounds,
     tyvar_behind_raw_pointer,
