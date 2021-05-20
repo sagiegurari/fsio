@@ -244,9 +244,6 @@
 #[cfg(test)]
 use doc_comment as _;
 
-#[cfg(test)]
-use rusty_hook as _;
-
 #[cfg(doctest)]
 doc_comment::doctest!("../README.md");
 
