@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.3.0
+
+* Support windows UNC paths
+
 ### v0.2.0 (2021-03-08)
 
 * FsIO error to use standard error types #6 (thanks @lweberk)
