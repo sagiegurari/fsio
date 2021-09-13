@@ -48,7 +48,20 @@ pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> FsIOResult<String
     match path_obj.canonicalize() {
         Ok(path_buf) => {
             let path_string = FromPath::from_path(&path_buf);
-            Ok(path_string)
+
+            #[cfg(not(windows))]
+            {
+                Ok(path_string)
+            }
+            #[cfg(windows)]
+            {
+                let win_path_string = match dunce::canonicalize(path_string) {
+                    Ok(value) => FromPath::from_path(&value),
+                    Err(_) => path_string.to_string(),
+                }
+
+                Ok(win_path_string);
+            }
         }
         Err(error) => Err(FsIOError::IOError(
             "Unable to canonicalize path.".to_string(),
