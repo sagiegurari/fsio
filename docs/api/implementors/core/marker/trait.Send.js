@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["fsio"] = [{"text":"impl Send for FsIOError","synthetic":true,"types":[]}];
+implementors["fsio"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Send.html\" title=\"trait core::marker::Send\">Send</a> for <a class=\"enum\" href=\"fsio/error/enum.FsIOError.html\" title=\"enum fsio::error::FsIOError\">FsIOError</a>","synthetic":true,"types":["fsio::error::FsIOError"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.3.0
+### v0.3.0 (2021-09-13)
 
 * Support windows UNC paths
 
