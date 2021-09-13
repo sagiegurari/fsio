@@ -57,7 +57,7 @@ pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> FsIOResult<String
             {
                 let win_path_string = match dunce::canonicalize(path_string) {
                     Ok(value) => FromPath::from_path(&value),
-                    Err(_) => path_string.to_string(),
+                    Err(_) => path_string,
                 };
 
                 Ok(win_path_string)
