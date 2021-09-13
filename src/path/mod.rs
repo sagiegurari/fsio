@@ -60,7 +60,7 @@ pub fn canonicalize_as_string<T: AsPath + ?Sized>(path: &T) -> FsIOResult<String
                     Err(_) => path_string.to_string(),
                 };
 
-                Ok(win_path_string);
+                Ok(win_path_string)
             }
         }
         Err(error) => Err(FsIOError::IOError(
