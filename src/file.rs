@@ -219,7 +219,7 @@ pub fn append_file<T: AsPath + ?Sized>(path: &T, data: &[u8]) -> FsIOResult<()> 
 /// ```
 pub fn modify_file<T: AsPath + ?Sized>(
     path: &T,
-    write_content: &Fn(&mut File) -> io::Result<()>,
+    write_content: &dyn Fn(&mut File) -> io::Result<()>,
     append: bool,
 ) -> FsIOResult<()> {
     directory::create_parent(path)?;
