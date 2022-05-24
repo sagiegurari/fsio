@@ -1,6 +1,6 @@
 [package]
 name = "fsio"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Sagie Gur-Ari <sagiegurari@gmail.com>"]
 description = "File System and Path utility functions."
 license = "Apache-2.0"
@@ -9,8 +9,8 @@ documentation = "https://sagiegurari.github.io/fsio/api/fsio/index.html"
 homepage = "http://github.com/sagiegurari/fsio"
 repository = "https://github.com/sagiegurari/fsio.git"
 readme = "README.md"
-keywords = ["environment", "build"]
-categories = ["config", "os"]
+keywords = ["file", "filesystem", "path"]
+categories = ["os", "filesystem"]
 include = [
   "/benches/*",
   "/docs/*",

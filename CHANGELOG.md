@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.3.1
+### v0.3.1 (2022-05-24)
 
 * Remove dependency on 'users' crate #10
 
