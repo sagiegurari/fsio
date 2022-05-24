@@ -4,9 +4,6 @@ use rand::{thread_rng, Rng};
 use std::env;
 use std::iter;
 
-#[cfg(not(windows))]
-use users::get_current_username;
-
 #[cfg(windows)]
 fn get_additional_temp_path() -> Option<String> {
     None
@@ -14,27 +11,26 @@ fn get_additional_temp_path() -> Option<String> {
 
 #[cfg(not(windows))]
 fn get_additional_temp_path() -> Option<String> {
-    let username = get_current_username();
+    let random_string = get_random_string();
+    let mut additional_path = env!("CARGO_PKG_NAME").to_string();
+    additional_path.push('_');
+    additional_path.push_str(&random_string);
+    Some(additional_path.to_string())
+}
 
-    match username {
-        Some(os_value) => match os_value.into_string() {
-            Ok(value) => Some(value),
-            Err(_) => None,
-        },
-        None => None,
-    }
+fn get_random_string() -> String {
+    let mut rng = thread_rng();
+    iter::repeat(())
+        .map(|()| rng.sample(Alphanumeric))
+        .map(char::from)
+        .take(10)
+        .collect()
 }
 
 pub(crate) fn get(extension: &str) -> String {
     let name = env!("CARGO_PKG_NAME");
 
-    let mut rng = thread_rng();
-    let file_name: String = iter::repeat(())
-        .map(|()| rng.sample(Alphanumeric))
-        .map(char::from)
-        .take(10)
-        .collect();
-
+    let file_name = get_random_string();
     let mut file_path = env::temp_dir();
 
     match get_additional_temp_path() {

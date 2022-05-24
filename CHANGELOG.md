@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.3.1
+
+* Remove dependency on 'users' crate #10
+
 ### v0.3.0 (2021-09-13)
 
 * Support windows UNC paths

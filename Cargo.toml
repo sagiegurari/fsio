@@ -26,9 +26,6 @@ include = [
 [dependencies]
 rand = { version = "^0.8", optional = true }
 
-[target.'cfg(not(windows))'.dependencies]
-users = { version = "^0.11", optional = true }
-
 [target.'cfg(windows)'.dependencies]
 dunce = "^1"
 
@@ -37,7 +34,7 @@ doc-comment = "^0.3"
 
 [features]
 default = []
-temp-path = ["rand", "users"]
+temp-path = ["rand"]
 
 [badges.codecov]
 branch = "master"
