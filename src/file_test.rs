@@ -315,7 +315,7 @@ fn delete_directory_test() {
     let path = Path::new(file_path);
     assert!(path.exists());
 
-    result = delete("./target/__test/ut/file_test/delete_file/delete_directory");
+    result = delete("./target/__test/ut/file_test/delete_directory");
     assert!(result.is_err());
 
     assert!(path.exists());
