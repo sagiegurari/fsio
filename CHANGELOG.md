@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.3.2
+
+* Temporary path on linux will point to root temporary directory
+
 ### v0.3.1 (2022-05-24)
 
 * Remove dependency on 'users' crate #10

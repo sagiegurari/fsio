@@ -143,7 +143,9 @@ fn get_last_modified_time_not_found() {
 fn get_temporary_file_path_valid() {
     let temp_file = get_temporary_file_path("txt");
 
-    let name = env!("CARGO_PKG_NAME");
     assert!(temp_file.ends_with(".txt"));
-    assert!(temp_file.contains(name));
+    assert!(temp_file.contains("fsio_"));
+    if cfg!(windows) {
+        assert!(temp_file.contains("/fsio/fsio_"));
+    }
 }

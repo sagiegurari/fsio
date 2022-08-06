@@ -5,17 +5,14 @@ use std::env;
 use std::iter;
 
 #[cfg(windows)]
-fn get_additional_temp_path() -> Option<String> {
-    None
+fn get_extra_path() -> Option<String> {
+    let name = env!("CARGO_PKG_NAME").to_string();
+    Some(name)
 }
 
 #[cfg(not(windows))]
-fn get_additional_temp_path() -> Option<String> {
-    let random_string = get_random_string();
-    let mut additional_path = env!("CARGO_PKG_NAME").to_string();
-    additional_path.push('_');
-    additional_path.push_str(&random_string);
-    Some(additional_path.to_string())
+fn get_extra_path() -> Option<String> {
+    None
 }
 
 fn get_random_string() -> String {
@@ -29,16 +26,15 @@ fn get_random_string() -> String {
 
 pub(crate) fn get(extension: &str) -> String {
     let name = env!("CARGO_PKG_NAME");
+    let mut file_name = get_random_string();
+    file_name.insert(0, '_');
+    file_name.insert_str(0, name);
 
-    let file_name = get_random_string();
     let mut file_path = env::temp_dir();
 
-    match get_additional_temp_path() {
-        Some(additional_path) => file_path.push(additional_path),
-        None => {}
+    if let Some(extra_path) = get_extra_path() {
+        file_path.push(extra_path);
     };
-
-    file_path.push(name);
 
     file_path.push(file_name);
     file_path.set_extension(extension);
