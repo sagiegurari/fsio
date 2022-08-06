@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.3.2
+### v0.4.0 (2022-08-06)
 
 * Temporary path on linux will point to root temporary directory
 
