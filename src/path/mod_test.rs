@@ -146,6 +146,6 @@ fn get_temporary_file_path_valid() {
     assert!(temp_file.ends_with(".txt"));
     assert!(temp_file.contains("fsio_"));
     if cfg!(windows) {
-        assert!(temp_file.contains("/fsio/fsio_"));
+        assert!(temp_file.contains("fsio\\fsio_"));
     }
 }
