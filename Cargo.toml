@@ -12,8 +12,6 @@ readme = "README.md"
 keywords = ["file", "filesystem", "path"]
 categories = ["os", "filesystem"]
 include = [
-  "/benches/*",
-  "/docs/*",
   "/examples/*",
   "/src/*",
   "/tests/*",
