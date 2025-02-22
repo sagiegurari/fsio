@@ -1,6 +1,6 @@
 ## CHANGELOG
 
-### v0.4.1
+### v0.4.1 (2025-02-22)
 
 * Maintenance - Upgrade dependencies
 

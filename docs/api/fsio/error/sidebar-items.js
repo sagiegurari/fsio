@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["FsIOError","Holds the error information"]]};
+window.SIDEBAR_ITEMS = {"enum":["FsIOError"]};

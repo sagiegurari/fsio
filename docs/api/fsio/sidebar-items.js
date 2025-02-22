@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["directory","directory"],["error","error"],["file","file"],["path","path"],["types","types"]]};
+window.SIDEBAR_ITEMS = {"mod":["directory","error","file","path","types"]};
