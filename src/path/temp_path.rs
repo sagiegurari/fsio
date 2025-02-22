@@ -1,6 +1,6 @@
 use crate::path::from_path::FromPath;
-use rand::distributions::Alphanumeric;
-use rand::{thread_rng, Rng};
+use rand::distr::Alphanumeric;
+use rand::{rng, Rng};
 use std::env;
 use std::iter;
 
@@ -16,9 +16,9 @@ fn get_extra_path() -> Option<String> {
 }
 
 fn get_random_string() -> String {
-    let mut rng = thread_rng();
+    let mut rng_inst = rng();
     iter::repeat(())
-        .map(|()| rng.sample(Alphanumeric))
+        .map(|()| rng_inst.sample(Alphanumeric))
         .map(char::from)
         .take(10)
         .collect()

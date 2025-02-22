@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v0.4.1
+
+* Maintenance - Upgrade dependencies
+
 ### v0.4.0 (2022-08-06)
 
 * Temporary path on linux will point to root temporary directory

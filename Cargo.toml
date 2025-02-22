@@ -22,7 +22,7 @@ include = [
 ]
 
 [dependencies]
-rand = { version = "^0.8", optional = true }
+rand = { version = "^0.9", optional = true }
 
 [target.'cfg(windows)'.dependencies]
 dunce = "^1"
